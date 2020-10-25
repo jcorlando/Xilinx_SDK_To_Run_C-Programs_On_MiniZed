@@ -44,54 +44,48 @@
  *   uartlite    Configurable only in HW design
  *   ps7_uart    115200 (configured by bootrom/bsp)
  */
-
 #include <stdio.h>
 #include "platform.h"
 #include "xil_printf.h"
 
-int num;
 
-void find_prime_or_composite(int num)
+char s[31];
+char r[31];
+
+
+void reverse_string(char * s)
 {
-	int i, flag = 0;
+	int begin, end, count = 0;
 
-	    for (i = 2; i <= num / 2; ++i)
-	    {
-	        // condition for non-prime
-	        if (num % i == 0)
-	        {
-	            flag = 1;
-	            break;
-	        }
-	    }
+	// Calculating string length
+	   while (s[count] != '\0')
+	      count++;
 
-	    if (num == 1)
-	    {
-	        printf("1 is neither prime nor composite.");
-	    }
-	    else
-	    {
-	        if (flag == 0)
-	            printf("%d is a prime number.", num);
-	        else
-	            printf("%d is not a prime number.", num);
-	    }
+	   end = count - 1;
+
+	   for (begin = 0; begin < count; begin++)
+	   {
+	      r[begin] = s[end];
+	      end--;
+	   }
+
+	   r[begin] = '\0';
 }
 
 int main()
 {
     init_platform();
-    while (1)
+
+    while(1)
     {
-    	printf("\nEnter a positive integer: ");
-    	scanf("%d", &num);
-    	find_prime_or_composite(num);
+
+		printf("Input a string\n");
+		fgets(s, 31, stdin);
+		printf("The input string is : %s\n", s);
+		reverse_string(s);
+		printf("The reverse string is : %s\n", r);
     }
+
     cleanup_platform();
     return 0;
 }
-
-
-
-
-
